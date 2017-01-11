@@ -55,7 +55,7 @@ This module currently only install a all in one version.
 
 ### Running tests
 
-This project contains tests for both [rspec-puppet][] and [test kitchen][] to verify functionality. For detailed information on using these tools, please see their respective documentation.
+This project contains tests for both rspec-puppet and test kitchen to verify functionality. For detailed information on using these tools, please see their respective documentation.
 
 #### Testing quickstart:
 

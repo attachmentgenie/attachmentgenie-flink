@@ -13,7 +13,7 @@ describe 'flink' do
                   :manage_config  => true,
               }
             }
-            it { should contain_file('flink-conf.yaml').with_content(/^foo:\sbar$/)}
+            it { should contain_file('flink-conf.yaml').with_content(/foo:\sbar$/)}
           end
 
           context 'with install_dir set to /opt/special' do
