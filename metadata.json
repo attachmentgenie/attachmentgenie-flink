@@ -1,6 +1,6 @@
 {
   "name": "attachmentgenie-flink",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "bram vogelaar <bram@attachmentgenie.com>",
   "summary": "Setup flink",
   "license": "MIT",
