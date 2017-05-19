@@ -17,7 +17,7 @@
 # @param package_version (String) Version of flink to install.
 # @param service_name (String) Name of service to manage.
 # @param service_provider (String) init system that is used.
-# @parama user (String) user that owns flink files.
+# @param user (String) user that owns flink files.
 class flink (
   $archive_source   = $::flink::params::archive_source,
   $flink_config     = $::flink::params::flink_config,
@@ -57,9 +57,9 @@ class flink (
     $user,
   )
 
-  anchor { 'flink::begin': } ->
-  class{ '::flink::install': } ->
-  class{ '::flink::config': } ~>
-  class{ '::flink::service': } ->
-  anchor { 'flink::end': }
+  anchor { 'flink::begin': }
+  -> class{ '::flink::install': }
+  -> class{ '::flink::config': }
+  ~> class{ '::flink::service': }
+  -> anchor { 'flink::end': }
 }

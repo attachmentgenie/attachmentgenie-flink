@@ -9,8 +9,8 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-class { '::java': } ->
-class { '::flink':
+class { '::java': }
+-> class { '::flink':
   archive_source => 'http://apache.xl-mirror.nl/flink/flink-1.1.4/flink-1.1.4-bin-hadoop27-scala_2.11.tgz',
   install_method => 'archive',
 }
