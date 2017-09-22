@@ -1,6 +1,6 @@
 {
   "name": "attachmentgenie-flink",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "author": "bram vogelaar <bram@attachmentgenie.com>",
   "summary": "Setup flink",
   "license": "MIT",
@@ -14,15 +14,15 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "14.04",
-        "16.04"
+        "14",
+        "16"
       ]
     },
     {
@@ -36,15 +36,15 @@
   "dependencies": [
     {
       "name": "puppet-archive",
-      "version_requirement": ">=0.5.1 <1.0.0"
+      "version_requirement": ">=2.0.0 <=3.0.0"
     },
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 1.0.0 <=4.12.0"
+      "version_requirement": ">= 4.13.0 < 5.0.0"
     },
     {
       "name": "camptocamp-systemd",
-      "version_requirement": ">=0.4.0 <1.0.0"
+      "version_requirement": ">=1.0.0 <=2.0.0"
     }
   ]
 }

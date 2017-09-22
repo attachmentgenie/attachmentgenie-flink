@@ -4,42 +4,47 @@
 #
 class flink::install {
   if $::flink::manage_user {
-    user { $::flink::user:
+    user { 'flink':
       ensure => present,
-      home   => $::flink::install_dir
+      home   => $::flink::install_dir,
+      name   => $::flink::user,
     }
-    group { $::flink::group:
+    group { 'flink':
       ensure => present,
+      name   => $::flink::group
     }
   }
   case $::flink::install_method {
     'package': {
-      package { $::flink::package_name:
+      package { 'flink':
         ensure => $::flink::package_version,
+        name   => $::flink::package_name,
       }
     }
     'archive': {
-      file { $::flink::install_dir:
+      file { 'flink install dir':
         ensure => directory,
         group  => $::flink::group,
         owner  => $::flink::user,
+        path   => $::flink::install_dir,
       }
       if $::flink::manage_user {
         File[$::flink::install_dir] {
-          require => [Group[$::flink::group],User[$::flink::user]],
+          require => [Group['flink'],User['flink']],
         }
       }
 
-      archive { '/tmp/flink.tar.gz':
+      archive { 'flink archive':
         cleanup         => true,
         creates         => "${::flink::install_dir}/bin",
         extract         => true,
         extract_command => 'tar xfz %s --strip-components=1',
         extract_path    => $::flink::install_dir,
+        path            => '/tmp/flink.tar.gz',
         source          => $::flink::archive_source,
         user            => $::flink::user,
         group           => $::flink::group,
-        require         => File[$::flink::install_dir]
+        require         => File['flink install dir']
       }
 
     }

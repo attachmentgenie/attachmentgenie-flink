@@ -23,6 +23,7 @@ class flink::params () {
   $package_name    = 'flink'
   $package_version = 'present'
   $service_name    = 'flink'
+  $service_ensure  = 'running'
   $user            = 'flink'
   case $::osfamily {
     'Debian': {
