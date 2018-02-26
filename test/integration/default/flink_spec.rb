@@ -16,6 +16,6 @@ control 'jobmanager 02' do
   describe port(8081) do
     it { is_expected.to be_listening }
     its('processes') { is_expected.to include 'java' }
-    its('protocols') { is_expected.to include 'tcp6' }
+    its('protocols') { is_expected.to include 'tcp' }
   end
 end
