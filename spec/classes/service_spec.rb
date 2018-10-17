@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe 'flink' do
-  on_os_under_test.each do |os, facts|
+  on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
 
@@ -12,9 +12,10 @@ describe 'flink' do
             manage_service: true,
             manage_user: true,
             service_name: 'flink',
-            service_provider: 'debian'
+            service_provider: 'debian',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_group('myspecialgroup') }
       end
 
@@ -26,9 +27,10 @@ describe 'flink' do
             manage_service: true,
             manage_user: true,
             service_name: 'flink',
-            service_provider: 'init'
+            service_provider: 'init',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_group('myspecialgroup') }
       end
 
@@ -40,9 +42,10 @@ describe 'flink' do
             manage_service: true,
             manage_user: true,
             service_name: 'flink',
-            service_provider: 'redhat'
+            service_provider: 'redhat',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_group('myspecialgroup') }
       end
 
@@ -52,9 +55,10 @@ describe 'flink' do
             install_dir: '/opt/special',
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'debian'
+            service_provider: 'debian',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_content(%r{^NAME=flink$}) }
       end
 
@@ -64,9 +68,10 @@ describe 'flink' do
             install_dir: '/opt/special',
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'init'
+            service_provider: 'init',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_content(%r{^NAME=flink$}) }
       end
 
@@ -76,9 +81,10 @@ describe 'flink' do
             install_dir: '/opt/special',
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'redhat'
+            service_provider: 'redhat',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_content(%r{^NAME=flink$}) }
       end
 
@@ -88,9 +94,10 @@ describe 'flink' do
             install_dir: '/opt/special',
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'systemd'
+            service_provider: 'systemd',
           }
         end
+
         it { is_expected.to contain_systemd__Unit_file('flink.service').with_content(%r{^ExecStart=/opt/special/bin/start-local.sh}) }
       end
 
@@ -98,9 +105,10 @@ describe 'flink' do
         let(:params) do
           {
             manage_service: true,
-            service_name: 'flink'
+            service_name: 'flink',
           }
         end
+
         it { is_expected.to contain_service('flink') }
       end
 
@@ -108,9 +116,10 @@ describe 'flink' do
         let(:params) do
           {
             manage_service: false,
-            service_name: 'flink'
+            service_name: 'flink',
           }
         end
+
         it { is_expected.not_to contain_service('flink') }
       end
 
@@ -120,9 +129,10 @@ describe 'flink' do
             install_method: 'package',
             manage_service: true,
             package_name: 'specialpackage',
-            service_name: 'flink'
+            service_name: 'flink',
           }
         end
+
         it { is_expected.to contain_package('flink').with_name('specialpackage') }
         it { is_expected.to contain_service('flink').that_subscribes_to('Package[specialpackage]') }
       end
@@ -131,9 +141,10 @@ describe 'flink' do
         let(:params) do
           {
             manage_service: true,
-            service_name: 'specialservice'
+            service_name: 'specialservice',
           }
         end
+
         it { is_expected.to contain_service('flink').with_name('specialservice') }
       end
 
@@ -142,9 +153,10 @@ describe 'flink' do
           {
             manage_service: true,
             service_name: 'specialservice',
-            service_provider: 'debian'
+            service_provider: 'debian',
           }
         end
+
         it { is_expected.to contain_service('flink').with_name('specialservice') }
         it { is_expected.to contain_file('flink service file').with_path('/etc/init.d/specialservice').that_notifies('Service[flink]').with_content(%r{^NAME=specialservice}) }
       end
@@ -154,9 +166,10 @@ describe 'flink' do
           {
             manage_service: true,
             service_name: 'specialservice',
-            service_provider: 'init'
+            service_provider: 'init',
           }
         end
+
         it { is_expected.to contain_service('flink').with_name('specialservice') }
         it { is_expected.to contain_file('flink service file').with_path('/etc/init.d/specialservice').that_notifies('Service[flink]').with_content(%r{^NAME=specialservice}) }
       end
@@ -166,9 +179,10 @@ describe 'flink' do
           {
             manage_service: true,
             service_name: 'specialservice',
-            service_provider: 'redhat'
+            service_provider: 'redhat',
           }
         end
+
         it { is_expected.to contain_service('flink').with_name('specialservice') }
         it { is_expected.to contain_file('flink service file').with_path('/etc/init.d/specialservice').that_notifies('Service[flink]').with_content(%r{^NAME=specialservice}) }
       end
@@ -178,9 +192,10 @@ describe 'flink' do
           {
             manage_service: true,
             service_name: 'specialservice',
-            service_provider: 'systemd'
+            service_provider: 'systemd',
           }
         end
+
         it { is_expected.to contain_service('flink').with_name('specialservice') }
         it { is_expected.to contain_systemd__Unit_file('specialservice.service').that_comes_before('Service[flink]').with_content(%r{^Description=specialservice}) }
       end
@@ -191,9 +206,10 @@ describe 'flink' do
             install_method: 'package',
             manage_service: true,
             package_name: 'flink',
-            service_name: 'specialservice'
+            service_name: 'specialservice',
           }
         end
+
         it { is_expected.to contain_service('flink').with_name('specialservice').that_subscribes_to('Package[flink]') }
       end
 
@@ -202,9 +218,10 @@ describe 'flink' do
           {
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'init'
+            service_provider: 'init',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_path('/etc/init.d/flink') }
         it { is_expected.not_to contain_systemd__Unit_file('flink.service').that_comes_before('Service[flink]') }
         it { is_expected.to contain_service('flink') }
@@ -215,9 +232,10 @@ describe 'flink' do
           {
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'systemd'
+            service_provider: 'systemd',
           }
         end
+
         it { is_expected.not_to contain_file('flink service file').with_path('/etc/init.d/flink') }
         it { is_expected.to contain_systemd__Unit_file('flink.service').that_comes_before('Service[flink]') }
         it { is_expected.to contain_service('flink') }
@@ -227,9 +245,10 @@ describe 'flink' do
         let(:params) do
           {
             manage_service: true,
-            service_provider: 'invalid'
+            service_provider: 'invalid',
           }
         end
+
         it { is_expected.to raise_error(%r{Service provider invalid not supported}) }
       end
 
@@ -241,9 +260,10 @@ describe 'flink' do
             manage_user: true,
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'debian'
+            service_provider: 'debian',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_path('/etc/init.d/flink').with_owner('myspecialuser') }
       end
 
@@ -255,9 +275,10 @@ describe 'flink' do
             manage_user: true,
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'init'
+            service_provider: 'init',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_path('/etc/init.d/flink').with_owner('myspecialuser') }
       end
 
@@ -269,9 +290,10 @@ describe 'flink' do
             manage_user: true,
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'redhat'
+            service_provider: 'redhat',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_path('/etc/init.d/flink').with_owner('myspecialuser') }
       end
     end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe 'flink' do
-  on_os_under_test.each do |os, facts|
+  on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
 
@@ -8,9 +8,10 @@ describe 'flink' do
         let(:params) do
           {
             archive_source: 'special.tar.gz',
-            install_method: 'archive'
+            install_method: 'archive',
           }
         end
+
         it { is_expected.to contain_archive('flink archive').with_source('special.tar.gz') }
       end
 
@@ -18,9 +19,10 @@ describe 'flink' do
         let(:params) do
           {
             group: 'myspecialgroup',
-            manage_user: true
+            manage_user: true,
           }
         end
+
         it { is_expected.to contain_group('flink').with_name('myspecialgroup') }
       end
 
@@ -30,9 +32,10 @@ describe 'flink' do
             group: 'myspecialgroup',
             install_dir: '/opt/flink',
             install_method: 'archive',
-            manage_user: true
+            manage_user: true,
           }
         end
+
         it { is_expected.to contain_file('flink install dir').with_group('myspecialgroup') }
         it { is_expected.to contain_archive('flink archive').with_group('myspecialgroup') }
       end
@@ -43,9 +46,10 @@ describe 'flink' do
             group: 'myspecialgroup',
             install_dir: '/opt/flink',
             install_method: 'archive',
-            manage_user: true
+            manage_user: true,
           }
         end
+
         it { is_expected.to contain_file('flink install dir').with_group('myspecialgroup').that_requires('Group[myspecialgroup]') }
         it { is_expected.to contain_archive('flink archive').with_group('myspecialgroup') }
       end
@@ -56,9 +60,10 @@ describe 'flink' do
             group: 'myspecialgroup',
             install_dir: '/opt/flink',
             install_method: 'archive',
-            manage_user: false
+            manage_user: false,
           }
         end
+
         it { is_expected.to contain_file('flink install dir').with_group('myspecialgroup').that_requires(nil) }
         it { is_expected.to contain_archive('flink archive').with_group('myspecialgroup') }
       end
@@ -71,9 +76,10 @@ describe 'flink' do
             manage_service: true,
             manage_user: true,
             service_name: 'flink',
-            service_provider: 'debian'
+            service_provider: 'debian',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_group('myspecialgroup') }
       end
 
@@ -85,9 +91,10 @@ describe 'flink' do
             manage_service: true,
             manage_user: true,
             service_name: 'flink',
-            service_provider: 'init'
+            service_provider: 'init',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_group('myspecialgroup') }
       end
 
@@ -99,9 +106,10 @@ describe 'flink' do
             manage_service: true,
             manage_user: true,
             service_name: 'flink',
-            service_provider: 'redhat'
+            service_provider: 'redhat',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_group('myspecialgroup') }
       end
 
@@ -109,9 +117,10 @@ describe 'flink' do
         let(:params) do
           {
             install_dir: '/opt/special',
-            install_method: 'archive'
+            install_method: 'archive',
           }
         end
+
         it { is_expected.to contain_file('flink install dir').with_path('/opt/special') }
         it { is_expected.to contain_archive('flink archive').with_creates('/opt/special/bin') }
         it { is_expected.to contain_archive('flink archive').with_extract_path('/opt/special') }
@@ -124,9 +133,10 @@ describe 'flink' do
             install_dir: '/opt/special',
             install_method: 'archive',
             manage_user: true,
-            user: 'flink'
+            user: 'flink',
           }
         end
+
         it { is_expected.to contain_user('flink').with_home('/opt/special') }
         it { is_expected.to contain_file('flink install dir').with_path('/opt/special').that_requires('User[flink]') }
       end
@@ -136,9 +146,10 @@ describe 'flink' do
           {
             install_dir: '/opt/flink',
             install_method: 'archive',
-            package_name: 'flink'
+            package_name: 'flink',
           }
         end
+
         it { is_expected.to contain_file('flink install dir').that_comes_before('Archive[flink archive]') }
         it { is_expected.to contain_archive('flink archive') }
         it { is_expected.not_to contain_package('flink') }
@@ -149,9 +160,10 @@ describe 'flink' do
           {
             install_dir: '/opt/flink',
             install_method: 'package',
-            package_name: 'flink'
+            package_name: 'flink',
           }
         end
+
         it { is_expected.not_to contain_file('flink install dir').that_comes_before('Archive[flink archive]') }
         it { is_expected.not_to contain_archive('flink archive') }
         it { is_expected.to contain_package('flink') }
@@ -162,9 +174,10 @@ describe 'flink' do
           {
             group: 'flink',
             manage_user: true,
-            user: 'flink'
+            user: 'flink',
           }
         end
+
         it { is_expected.to contain_user('flink') }
         it { is_expected.to contain_group('flink') }
       end
@@ -172,9 +185,10 @@ describe 'flink' do
       context 'with manage_user set to false' do
         let(:params) do
           {
-            manage_user: false
+            manage_user: false,
           }
         end
+
         it { is_expected.not_to contain_user('flink') }
         it { is_expected.not_to contain_group('flink') }
       end
@@ -183,9 +197,10 @@ describe 'flink' do
         let(:params) do
           {
             install_method: 'package',
-            package_name: 'specialpackage'
+            package_name: 'specialpackage',
           }
         end
+
         it { is_expected.to contain_package('flink').with_name('specialpackage') }
       end
 
@@ -195,9 +210,10 @@ describe 'flink' do
             install_method: 'package',
             manage_service: true,
             package_name: 'specialpackage',
-            service_name: 'flink'
+            service_name: 'flink',
           }
         end
+
         it { is_expected.to contain_package('flink').with_name('specialpackage') }
         it { is_expected.to contain_service('flink').that_subscribes_to('Package[specialpackage]') }
       end
@@ -207,9 +223,10 @@ describe 'flink' do
           {
             install_method: 'package',
             package_name: 'flink',
-            package_version: '42.42.42'
+            package_version: '42.42.42',
           }
         end
+
         it { is_expected.to contain_package('flink').with_ensure('42.42.42') }
       end
 
@@ -217,9 +234,10 @@ describe 'flink' do
         let(:params) do
           {
             manage_user: true,
-            user: 'myspecialuser'
+            user: 'myspecialuser',
           }
         end
+
         it { is_expected.to contain_user('flink').with_name('myspecialuser') }
       end
 
@@ -229,9 +247,10 @@ describe 'flink' do
             install_dir: '/opt/flink',
             install_method: 'archive',
             manage_user: true,
-            user: 'myspecialuser'
+            user: 'myspecialuser',
           }
         end
+
         it { is_expected.to contain_file('flink install dir').with_owner('myspecialuser') }
         it { is_expected.to contain_archive('flink archive').with_user('myspecialuser') }
       end
@@ -242,9 +261,10 @@ describe 'flink' do
             install_dir: '/opt/flink',
             install_method: 'archive',
             manage_user: true,
-            user: 'myspecialuser'
+            user: 'myspecialuser',
           }
         end
+
         it { is_expected.to contain_file('flink install dir').with_owner('myspecialuser').that_requires('User[myspecialuser]') }
         it { is_expected.to contain_archive('flink archive').with_user('myspecialuser') }
       end
@@ -255,9 +275,10 @@ describe 'flink' do
             install_dir: '/opt/flink',
             install_method: 'archive',
             manage_user: false,
-            user: 'myspecialuser'
+            user: 'myspecialuser',
           }
         end
+
         it { is_expected.to contain_file('flink install dir').with_owner('myspecialuser').that_requires(nil) }
         it { is_expected.to contain_archive('flink archive').with_user('myspecialuser') }
       end
@@ -270,9 +291,10 @@ describe 'flink' do
             manage_user: true,
             manage_service: true,
             service_name: 'flink',
-            service_provider: 'debian'
+            service_provider: 'debian',
           }
         end
+
         it { is_expected.to contain_file('flink service file').with_path('/etc/init.d/flink').with_owner('myspecialuser') }
       end
     end

@@ -1,17 +1,19 @@
 require 'spec_helper'
 describe 'flink' do
-  on_os_under_test.each do |os, facts|
+  on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
+
       context 'config' do
         context 'with manage_config set to true' do
           context 'with flink_config set to { foo => bar }' do
             let(:params) do
               {
                 flink_config: { 'foo' => 'bar' },
-                manage_config: true
+                manage_config: true,
               }
             end
+
             it { is_expected.to contain_file('flink-conf.yaml').with_content(%r{foo:\sbar$}) }
           end
 
@@ -19,9 +21,10 @@ describe 'flink' do
             let(:params) do
               {
                 install_dir: '/opt/special',
-                manage_config: true
+                manage_config: true,
               }
             end
+
             it { is_expected.to contain_file('flink-conf.yaml').with_path('/opt/special/conf/flink-conf.yaml') }
           end
 
@@ -30,9 +33,10 @@ describe 'flink' do
               {
                 manage_config: true,
                 manage_service: true,
-                service_name: 'flink'
+                service_name: 'flink',
               }
             end
+
             it { is_expected.to contain_file('flink-conf.yaml').that_notifies('Service[flink]') }
           end
 
@@ -41,9 +45,10 @@ describe 'flink' do
               {
                 manage_config: true,
                 manage_service: false,
-                service_name: 'flink'
+                service_name: 'flink',
               }
             end
+
             it { is_expected.not_to contain_file('flink-conf.yaml').that_notifies('Service[flink]') }
           end
 
@@ -54,9 +59,10 @@ describe 'flink' do
                 install_dir: '/opt/flink',
                 install_method: 'package',
                 manage_config: true,
-                manage_user: true
+                manage_user: true,
               }
             end
+
             it { is_expected.to contain_file('flink-conf.yaml').with_group('myspecialgroup').that_requires('Group[myspecialgroup]') }
           end
 
@@ -67,9 +73,10 @@ describe 'flink' do
                 install_dir: '/opt/flink',
                 install_method: 'package',
                 manage_config: true,
-                manage_user: false
+                manage_user: false,
               }
             end
+
             it { is_expected.not_to contain_file('flink-conf.yaml').with_group('myspecialgroup').that_requires('Group[myspecialgroup]') }
           end
 
@@ -80,9 +87,10 @@ describe 'flink' do
                 install_method: 'package',
                 manage_config: true,
                 manage_user: true,
-                user: 'myspecialuser'
+                user: 'myspecialuser',
               }
             end
+
             it { is_expected.to contain_file('flink-conf.yaml').with_owner('myspecialuser').that_requires('User[myspecialuser]') }
           end
 
@@ -93,9 +101,10 @@ describe 'flink' do
                 install_method: 'package',
                 manage_config: true,
                 manage_user: false,
-                user: 'myspecialuser'
+                user: 'myspecialuser',
               }
             end
+
             it { is_expected.not_to contain_file('flink-conf.yaml').with_owner('myspecialuser').that_requires('User[myspecialuser]') }
           end
         end
@@ -103,9 +112,10 @@ describe 'flink' do
         context 'with manage_config set to false' do
           let(:params) do
             {
-              manage_config: false
+              manage_config: false,
             }
           end
+
           it { is_expected.not_to contain_file('flink-conf.yaml') }
         end
       end
