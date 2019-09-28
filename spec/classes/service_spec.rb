@@ -134,7 +134,6 @@ describe 'flink' do
         end
 
         it { is_expected.to contain_package('flink').with_name('specialpackage') }
-        it { is_expected.to contain_service('flink').that_subscribes_to('Package[specialpackage]') }
       end
 
       context 'with service_name set to specialservice' do
