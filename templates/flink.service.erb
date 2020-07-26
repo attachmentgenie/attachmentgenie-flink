@@ -4,10 +4,10 @@ After=network.target
 
 [Service]
 Type=forking
-WorkingDirectory=<%= scope['flink::install_dir'] %>/bin
-ExecStart=<%= scope['flink::install_dir'] %>/bin/start-local.sh > /dev/null 2>&1
-ExecStop=<%= scope['flink::install_dir'] %>/bin/stop-local.sh > /dev/null 2>&1
-PIDFile=/tmp/flink--jobmanager.pid
+WorkingDirectory=<%= scope['flink::install_dir'] %>
+ExecStart=<%= scope['flink::install_dir'] %>/bin/start-cluster.sh
+ExecStop=<%= scope['flink::install_dir'] %>/bin/stop-cluster.sh
+PIDFile=/var/run/flink-jobmanager.pid
 
 [Install]
 WantedBy=multi-user.target

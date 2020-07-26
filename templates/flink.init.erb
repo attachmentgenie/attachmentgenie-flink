@@ -12,7 +12,7 @@ SCRIPTNAME=/etc/init.d/$NAME
 case "$1" in
 start)
 printf "%-50s" "Starting $NAME..."
-<%= scope['flink::install_dir'] %>/bin/start-local.sh > /dev/null 2>&1
+<%= scope['flink::install_dir'] %>/bin/start-cluster.sh > /dev/null 2>&1
 if [ -f $PIDFILE ]; then
 printf "%s\n" "Ok"
 else
@@ -36,7 +36,7 @@ stop)
 printf "%-50s" "Stopping $NAME"
 PID=`cat $PIDFILE`
 if [ -f $PIDFILE ]; then
-<%= scope['flink::install_dir'] %>/bin/stop-local.sh > /dev/null 2>&1
+<%= scope['flink::install_dir'] %>/bin/stop-cluster.sh > /dev/null 2>&1
 rm -f $PIDFILE
 else
 printf "%s\n" "pidfile not found"

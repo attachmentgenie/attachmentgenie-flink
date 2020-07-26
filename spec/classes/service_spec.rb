@@ -98,7 +98,7 @@ describe 'flink' do
           }
         end
 
-        it { is_expected.to contain_systemd__Unit_file('flink.service').with_content(%r{^ExecStart=/opt/special/bin/start-local.sh}) }
+        it { is_expected.to contain_systemd__Unit_file('flink.service').with_content(%r{^ExecStart=/opt/special/bin/start-cluster.sh}) }
       end
 
       context 'with manage_service set to true' do
